@@ -7,14 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Student {
-  id        Int      @id @default(autoincrement())
-  nim       String   @unique
-  nama      String
-  jurusan   String
-  email     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("students")
+model Task {
+  id         Int      @id @default(autoincrement())
+  judul      String
+  deskripsi  String   @default("Tidak ada catatan tambahan.")
+  mataKuliah String
+  kategori   String   @default("Individu")
+  prioritas  String   @default("Medium")
+  tenggat    String
+  jam        String   @default("23:59")
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -1,12 +1,11 @@
-import 'dotenv/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { StudentModule } from './student/student.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [PrismaModule, StudentModule],
+  imports: [PrismaModule, TaskModule],
   controllers: [AppController],
   providers: [AppService],
 })

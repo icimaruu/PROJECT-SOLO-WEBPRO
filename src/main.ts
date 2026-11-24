@@ -1,12 +1,16 @@
-import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`\n🚀 Server berjalan di: http://localhost:${port}`);
-  console.log(`📌 Endpoint View Student: http://localhost:${port}/students\n`);
+
+  // Izinkan akses dari Frontend Vite (localhost:5173)
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
+
+  await app.listen(3000);
 }
 bootstrap();
