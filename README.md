@@ -1,10 +1,13 @@
-# NestJS Student API (TUGAS BAB 10 - PostgreSQL + Prisma ORM)
+# Student Management REST API
 
-Implementasi REST API berbasis **NestJS** yang terhubung ke database **PostgreSQL** menggunakan **Prisma ORM**.
+## 📋 Informasi Proyek
+
+* **Nama Proyek**: Student Management REST API (NestJS + PostgreSQL + Prisma ORM)
+* **Deskripsi**: Aplikasi backend REST API untuk pengelolaan data mahasiswa (*Student Data Management*) yang dibangun menggunakan framework **NestJS**, terhubung secara  ke basis data **PostgreSQL** melalui **Prisma ORM**. Aplikasi ini mendukung operasi CRUD lengkap (Create, Read, Update, Delete) serta fitur pencarian filter (*where*) dan agregasi statistik data (*count*).
 
 ---
 
-## 📌 Rincian Tugas BAB 10 (Sesuai Soal)
+## 📌 Rincian Tugas BAB 10
 
 1. **Server PostgreSQL Lokal**: Terhubung ke database `db_student` di PostgreSQL lokal (Port 5432).
 2. **Model Prisma (`prisma/schema.prisma`)**: Model `Student` dengan atribut `id`, `nim`, `nama`, `jurusan`, `email`, `createdAt`, `updatedAt`.
@@ -17,24 +20,7 @@ Implementasi REST API berbasis **NestJS** yang terhubung ke database **PostgreSQ
 
 ---
 
-## 🚀 Panduan Menjalankan Project
-
-### 1. Pastikan PostgreSQL Berjalan
-Service `postgresql-x64-18` aktif di port `5432`.
-Konfigurasi koneksi tersimpan di file `.env`:
-```env
-DATABASE_URL="postgresql://postgres:Farizqy0211@localhost:5432/db_student?schema=public"
-```
-
-### 2. Jalankan Server NestJS
-```bash
-npm run start:dev
-```
-Server akan aktif di: `http://localhost:3000`.
-
----
-
-## 📡 Daftar Endpoint API (Untuk Postman & Screenshot)
+## 📡 Daftar Endpoint API (Untuk Postman & Pengujian)
 
 | Method | Endpoint | Deskripsi | Status |
 | :--- | :--- | :--- | :--- |
@@ -53,7 +39,7 @@ Server akan aktif di: `http://localhost:3000`.
 #### 1. POST `/students` (Tambah Data):
 ```json
 {
-  "nim": "103022400132",
+  "nim": "103022400999",
   "nama": "Farizqy Testing",
   "jurusan": "Rekayasa Perangkat Lunak",
   "email": "test@student.telkomuniversity.ac.id"
