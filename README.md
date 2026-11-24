@@ -1,99 +1,52 @@
-# TaskFlow - REST API Manajemen Tugas Kuliah (BAB 10)
+# TaskFlow - Fullstack Manajemen Tugas Kuliah (BAB 10)
 
 ## 📋 Informasi Proyek
 
-* **Nama Proyek**: TaskFlow - REST API Manajemen Tugas Kuliah (NestJS + PostgreSQL + Prisma ORM)
-* **Deskripsi**: Aplikasi backend REST API untuk sistem manajemen tugas perkuliahan (*Task Management*) yang merupakan kelanjutan langsung dari aplikasi frontend React **TaskFlow (Tugas Pekan 6)**. Dibangun menggunakan framework **NestJS**, terhubung secara persisten ke basis data **PostgreSQL** melalui **Prisma ORM**.
-* **Pengembang**: Farizqy Akhram Nugraha (NIM: 103022400132)
-* **Entitas Utama**: `Task` (`id`, `title`, `course`, `category`, `priority`, `deadline`, `status`, `description`, `createdAt`, `updatedAt`)
+- **Nama Proyek**: TaskFlow - Fullstack Manajemen Tugas Kuliah (React + NestJS + PostgreSQL + Prisma ORM)
+- **Deskripsi**: Aplikasi fullstack manajemen tugas perkuliahan (*Task Management*) yang merupakan kelanjutan dari frontend React **TaskFlow (Pekan 6)** dan REST API NestJS (Pekan 9). Pada tahap ini, backend terhubung secara persisten ke basis data **PostgreSQL** menggunakan **Prisma ORM**, serta terintegrasi langsung dengan frontend React.
+- **Pengembang**: Farizqy Akhram Nugraha (NIM: 103022400132)
+- **Entitas Utama**: `Task` (`id`, `judul`, `deskripsi`, `mataKuliah`, `kategori`, `prioritas`, `tenggat`, `jam`, `status`, `createdAt`, `updatedAt`)
 
 ---
 
-## 📌 Keselarasan dengan Tugas Pekan 6 (TaskFlow Frontend)
+### Ringkasan Daftar API
 
-Proyek backend ini mengimplementasikan skema data yang 100% selaras dengan frontend React di **Pekan 6 (`manajemen-tugas-frontend`)**:
-
-1. **Struktur Data Tugas**:
-   * `title`: Judul tugas kuliah.
-   * `course`: Mata kuliah terkait (misal: *Pemrograman Web*, *Rekayasa Web*, dll).
-   * `category`: Kategori pengerjaan (*Individu*, *Kelompok*, *Praktikum*).
-   * `priority`: Tingkat prioritas (*High*, *Medium*, *Low*).
-   * `deadline`: Tenggat waktu pengerjaan (format `YYYY-MM-DD`).
-   * `status`: Status pengerjaan (*In Progress*, *Pending*, *Completed*).
-   * `description`: Catatan / instruksi tugas.
-
-2. **Auto-Seeder Realistis**:
-   * Mengisi 6 data tugas inisial otomatis dari tugas W6 saat database pertama kali diinisialisasi.
-
-3. **Statistik Terintegrasi (`/tasks/stats/summary`)**:
-   * Menghasilkan metrik ringkasan (*Total*, *In Progress*, *Completed*, *Pending*) yang identik dengan komponen `RingkasanTugas.jsx`.
-
-4. **CORS Diaktifkan**:
-   * Backend telah mengizinkan CORS (`app.enableCors()`) sehingga frontend React W6 (di port `5173`) dapat langsung melakukan `fetch` ke backend (port `3000`).
+| No | Method | Full URL Endpoint | Deskripsi | Kategori Tugas 10 |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | **POST** | `http://localhost:3000/tasks` | Menambahkan data tugas kuliah baru | **CRUD - Create** |
+| 2 | **GET** | `http://localhost:3000/tasks` | Mengambil seluruh daftar tugas kuliah | **CRUD - Read All** |
+| 3 | **GET** | `http://localhost:3000/tasks?mataKuliah=Pemrograman%20Web` | Filter tugas berdasarkan mata kuliah | **Query Lanjutan - Where** |
+| 4 | **GET** | `http://localhost:3000/tasks?prioritas=High` | Filter tugas berdasarkan tingkat prioritas | **Query Lanjutan - Where** |
+| 5 | **GET** | `http://localhost:3000/tasks/stats/count` | Statistik jumlah tugas berdasarkan status | **Query Lanjutan - Count** |
+| 6 | **GET** | `http://localhost:3000/tasks/:id` | Mengambil detail 1 tugas berdasarkan ID | **CRUD - Read One** |
+| 7 | **PATCH** | `http://localhost:3000/tasks/:id` | Memperbarui data atau status tugas | **CRUD - Update** |
+| 8 | **DELETE** | `http://localhost:3000/tasks/:id` | Menghapus tugas berdasarkan ID | **CRUD - Delete**[cite: 5] |
 
 ---
 
+## 📌 Fullstack (Frontend React + Backend Prisma)
 
+1. **Struktur Model Prisma (`prisma/schema.prisma`)**:
+   - `judul`: Nama atau judul tugas perkuliahan.
+   - `mataKuliah`: Nama mata kuliah terkait (*Pemrograman Web*, *Rekayasa Web*, *Proyek Fullstack*, *Basis Data Lanjut*).
+   - `kategori`: Kategori penugasan (*Individu*, *Kelompok*, *Praktikum*, *Ujian*).
+   - `prioritas`: Tingkat prioritas (*High*, *Medium*, *Low*).
+   - `tenggat`: Tanggal batas pengumpulan tugas (contoh: `28 Nov 2026`).
+   - `jam`: Jam batas pengumpulan (default: `23:59`).
+   - `status`: Status pengerjaan (*Pending*, *In Progress*, *Completed*).
+   - `deskripsi`: Catatan atau instruksi tambahan tugas.
 
-### 1. Database PostgreSQL
-Pastikan service PostgreSQL berjalan di port `5432`.
-Konfigurasi koneksi tersimpan di file `.env`:
+2. **Statistik Terintegrasi (`GET /tasks/stats/count`)**:
+   - Menghasilkan ringkasan statistik jumlah tugas (`total`, `selesai`, `berjalan`, `pending`) menggunakan query `count()` Prisma.
+
+3. **CORS & Integrasi Frontend (`http://localhost:5173`)**:
+   - Backend telah mengaktifkan CORS untuk `http://localhost:5173` sehingga seluruh operasi CRUD pada komponen React (`App.jsx`, `DaftarTugas.jsx`, `FormTambahTugas.jsx`, `RingkasanTugas.jsx`) tersimpan secara permanen ke PostgreSQL.
+
+---
+
+## 🚀 Cara Menjalankan Aplikasi (Fullstack)
+
+### 1. Konfigurasi Database PostgreSQL & Prisma
+Pastikan service PostgreSQL aktif di port `5432`, lalu sesuaikan konfigurasi pada file `.env`:
 ```env
-DATABASE_URL="postgresql://postgres:Farizqy0211@localhost:5432/db_student?schema=public"
-```
-
-### 2. Jalankan Backend NestJS
-```bash
-npm run start:dev
-```
-Server akan aktif di: `http://localhost:3000`.
-
-### 3. Cek Data Melalui Prisma Studio (Visual Web UI)
-```bash
-npx prisma studio
-```
-Buka di browser: `http://localhost:5555` untuk melihat tabel `tasks` dan `students` secara visual.
-
----
-
-## 📡 Daftar Endpoint REST API (Untuk Postman)
-
-### 🎯 Endpoint Utama: Task (Tugas Kuliah - Tema W6)
-
-| Method | Endpoint | Deskripsi | Kategori |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/tasks` | Melihat seluruh data tugas kuliah | **[CRUD - Read All]** |
-| **GET** | `/tasks/stats/summary` | Statistik ringkasan tugas (*Total, In Progress, Completed, Pending, Per Mata Kuliah*) | **[Nilai Tambah - Count & Group]** |
-| **GET** | `/tasks?course=Pemrograman%20Web` | Filter tugas berdasarkan mata kuliah | **[Nilai Tambah - Where]** |
-| **GET** | `/tasks?status=In%20Progress` | Filter tugas berdasarkan status | **[Nilai Tambah - Where]** |
-| **GET** | `/tasks/:id` | Melihat detail tugas berdasarkan ID | **[CRUD - Read One]** |
-| **POST** | `/tasks` | Menambahkan tugas kuliah baru | **[CRUD - Create]** |
-| **PATCH**| `/tasks/:id` | Mengupdate data tugas / status pengerjaan | **[CRUD - Update]** |
-| **DELETE**| `/tasks/:id` | Menghapus tugas | **[CRUD - Delete]** |
-
----
-
-### Contoh Payload Request Body
-
-#### 1. POST `/tasks` (Tambah Tugas Baru):
-```json
-{
-  "title": "Implementasi REST API & Prisma",
-  "course": "Pemrograman Web",
-  "category": "Individu",
-  "priority": "High",
-  "deadline": "2026-11-28",
-  "status": "In Progress",
-  "description": "Menghubungkan NestJS dengan PostgreSQL menggunakan Prisma ORM."
-}
-```
-
-#### 2. PATCH `/tasks/:id` (Update Status / Data):
-```json
-{
-  "status": "Completed"
-}
-```
-
----
-
+DATABASE_URL="postgresql://postgres:PASSWORD@localhost:5432/db_student?schema=public"
