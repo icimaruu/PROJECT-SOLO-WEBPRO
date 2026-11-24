@@ -3,7 +3,7 @@
 ## 📋 Informasi Proyek
 
 - **Nama Proyek**: TaskFlow - Fullstack Manajemen Tugas Kuliah (React + NestJS + PostgreSQL + Prisma ORM)
-- **Deskripsi**: Aplikasi fullstack manajemen tugas perkuliahan (*Task Management*) yang merupakan kelanjutan dari frontend React **TaskFlow (Pekan 6)** dan REST API NestJS (Pekan 9). Pada tahap ini, backend terhubung secara persisten ke basis data **PostgreSQL** menggunakan **Prisma ORM**, serta terintegrasi langsung dengan frontend React.
+- **Deskripsi**: Aplikasi fullstack manajemen tugas perkuliahan (*Task Management*) yang merupakan kelanjutan dari frontend React **TaskFlow** dan REST API NestJS. Pada tahap ini, backend terhubung secara persisten ke basis data **PostgreSQL** menggunakan **Prisma ORM**, serta terintegrasi langsung dengan frontend React.
 - **Pengembang**: Farizqy Akhram Nugraha (NIM: 103022400132)
 - **Entitas Utama**: `Task` (`id`, `judul`, `deskripsi`, `mataKuliah`, `kategori`, `prioritas`, `tenggat`, `jam`, `status`, `createdAt`, `updatedAt`)
 
